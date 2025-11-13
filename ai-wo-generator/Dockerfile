@@ -3,8 +3,9 @@
 # Base image: runtime
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
+
+# Expose default fallback port
 EXPOSE 8080
-EXPOSE 8081
 
 # SDK image: build stage
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
@@ -26,5 +27,9 @@ RUN dotnet publish "./ai-wo-generator.csproj" -c $BUILD_CONFIGURATION -o /app/pu
 # Final stage
 FROM base AS final
 WORKDIR /app
+
+# Use the PORT environment variable dynamically
+ENV ASPNETCORE_URLS="http://+:${PORT:-8080}"
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ai-wo-generator.dll"]
