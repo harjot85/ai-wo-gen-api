@@ -1,0 +1,6 @@
+@ai_wo_generator_HostAddress = http://localhost:5034
+
+GET {{ai_wo_generator_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
