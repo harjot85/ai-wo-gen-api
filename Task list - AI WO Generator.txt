@@ -1,0 +1,53 @@
+Task list - AI WO Generator 
+===========================
+
+High Priority (Core Functionality)
+---------------------------------
+
+Set up ASP.NET Core API project - Done
+
+Configure OpenAI API integration in backend
+
+Create database schema (SQLite or Postgres)
+
+Implement endpoint to generate fitness plan
+
+Build React frontend with form for user stats & goals
+
+Connect frontend → backend for generating plan
+
+Display AI-generated plan in frontend
+
+
+Medium Priority (User Experience & Features)
+-------------------------------------------
+
+Implement streaming display of AI response
+
+Add “Accept / Tweak / Regenerate” workflow
+
+Store accepted plans in database
+
+Basic validation on user input (frontend + backend)
+
+Logging & error handling in API
+
+Show loading / error / success states in frontend
+
+
+Low Priority (Polish & Optional Enhancements)
+--------------------------------------------
+
+Styling with Tailwind / UI library
+
+User accounts (optional, for future)
+
+Analytics / tracking prompt usage & acceptance
+
+Versioning AI prompts & responses in DB
+
+Optional caching of repeated prompts to save OpenAI calls
+
+Deploy frontend to Vercel & backend to Render
+
+Documentation & code comments
