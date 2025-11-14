@@ -1,4 +1,5 @@
-
+using ai_wo_generator.Services;
+using ai_wo_generator.Services.OpenAIService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IFitnessPlanService, FitnessPlanService>();
+//builder.Services.AddScoped<IOpenAIService, OpenAIService>();
+builder.Services.AddHttpClient<IOpenAIService, OpenAIService>();
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 builder.WebHost.UseUrls($"http://*:{port}");
