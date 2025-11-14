@@ -6,7 +6,7 @@ High Priority (Core Functionality)
 
 Set up ASP.NET Core API project - Done
 
-Configure OpenAI API integration in backend
+Configure OpenAI API integration in backend - Done
 
 Create database schema (SQLite or Postgres)
 
