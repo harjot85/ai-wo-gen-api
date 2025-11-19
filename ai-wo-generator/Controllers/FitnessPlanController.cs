@@ -22,7 +22,7 @@ namespace ai_wo_generator.Controllers
                 fitnessPlanGenerateRequest = new FitnessPlanGenerate()
                 {
                     Goal = userPrompt,
-                    Preference = "Include the exercises easy on the shoulders.",
+                    Preference = "Do not include the exercises which are hard on shoulders.",
                 };
             }
 
