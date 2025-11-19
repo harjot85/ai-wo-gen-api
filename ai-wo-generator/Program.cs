@@ -5,25 +5,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-
 //builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IFitnessPlanService, FitnessPlanService>();
-//builder.Services.AddScoped<IOpenAIService, OpenAIService>();
 builder.Services.AddHttpClient<IOpenAIService, OpenAIService>();
-
-//var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-//builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseAuthorization();
 
