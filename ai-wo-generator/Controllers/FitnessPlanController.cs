@@ -1,5 +1,5 @@
 ﻿using ai_wo_generator.Models;
-using ai_wo_generator.Services;
+using ai_wo_generator.Services.FitnessPlanService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ai_wo_generator.Controllers

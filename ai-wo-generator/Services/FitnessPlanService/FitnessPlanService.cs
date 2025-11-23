@@ -1,7 +1,7 @@
 ﻿using ai_wo_generator.Models;
 using ai_wo_generator.Services.OpenAIService;
 
-namespace ai_wo_generator.Services
+namespace ai_wo_generator.Services.FitnessPlanService
 {
     public class FitnessPlanService(IOpenAIService openAIService) : IFitnessPlanService
     {

@@ -1,6 +1,6 @@
 ﻿using ai_wo_generator.Models;
 
-namespace ai_wo_generator.Services
+namespace ai_wo_generator.Services.FitnessPlanService
 {
     public interface IFitnessPlanService
     {
