@@ -1,4 +1,5 @@
 ﻿using ai_wo_generator.Models;
+using ai_wo_generator.Models.DTO;
 using ai_wo_generator.Repository;
 
 namespace ai_wo_generator.Services.UserService
@@ -7,7 +8,7 @@ namespace ai_wo_generator.Services.UserService
     {
         private readonly IUserRepository _userRepository = userRepository;
 
-        public async Task<int> RegisterAsync(RegisterRequest request)
+        public async Task<int> RegisterAsync(UserRegisterationRequest request)
         {
             var existingUser = await _userRepository.GetByEmailAsync(request.Email);
             if (existingUser != null)
@@ -24,15 +25,54 @@ namespace ai_wo_generator.Services.UserService
             return await _userRepository.CreateAsync(user);
         }
         
-        public async Task<User?> GetUserAsync(int id)
+        public async Task<UserProfileDto?> GetUserAsync(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            UserProfileDto userProfileDto = new()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.FullName ?? string.Empty
+            };
+
+            return userProfileDto;
         }
 
         private string HashPassword(string password)
         {
             
             return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        public async Task<UserProfileDto?> LoginAsync(UserLoginRequest loginRequest)
+        {
+            var user = await _userRepository.GetByEmailAsync(loginRequest.Email);
+
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.PasswordHash))
+            {
+                throw new Exception("Invalid email or password.");
+            }
+
+            UserProfileDto userProfileDto = new()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.FullName ?? string.Empty
+            };
+
+
+            return userProfileDto;
         }
     }
 }

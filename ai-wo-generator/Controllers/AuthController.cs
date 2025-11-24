@@ -1,6 +1,5 @@
 ﻿using ai_wo_generator.Models;
 using ai_wo_generator.Services.UserService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ai_wo_generator.Controllers
@@ -11,7 +10,7 @@ namespace ai_wo_generator.Controllers
     {
         private readonly IUserService _userService = userService;
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody]UserRegisterationRequest request)
         {
             try
             {
@@ -39,6 +38,31 @@ namespace ai_wo_generator.Controllers
                 {
                     return NotFound("User not found");
                 }
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login(UserLoginRequest loginRequest)
+        {
+            try
+            {
+                if (loginRequest == null)
+                {
+                    return Unauthorized("Login credentials missing");
+                }
+
+                var user = _userService.LoginAsync(loginRequest);
+
+                if (user == null)
+                {
+                    return Unauthorized("Invalid email or password");
+                }
+
                 return Ok(user);
             }
             catch (Exception ex)

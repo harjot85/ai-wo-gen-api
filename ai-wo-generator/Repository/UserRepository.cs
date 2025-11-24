@@ -24,7 +24,11 @@ namespace ai_wo_generator.Repository
             const string sql = @"SELECT Id, Email, PasswordHash, FullName, CreatedAt
                                  FROM [dbo].[Users]
                                  WHERE Email = @Email";
-            return await connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email });
+
+            // Todo: 
+            var result =  await connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email });
+
+            return result;
         }
 
         public async Task<User?> GetByIdAsync(int id)
