@@ -16,6 +16,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddHttpClient<IOpenAIService, OpenAIService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Allow-AIWOG", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://ai-wog-vite.vercel.app")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -26,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseCors("Allow-AIWOG");
 
 app.MapControllers();
 
