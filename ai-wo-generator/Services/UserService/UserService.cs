@@ -1,12 +1,14 @@
 ﻿using ai_wo_generator.Models;
 using ai_wo_generator.Models.DTO;
-using ai_wo_generator.Repository;
+using ai_wo_generator.Repository.User;
+using ai_wo_generator.Repository.UserStats;
 
 namespace ai_wo_generator.Services.UserService
 {
-    public class UserService(IUserRepository userRepository): IUserService
+    public class UserService(IUserRepository userRepository, IUserStatisticsRepository userStatisticsRepository): IUserService
     {
         private readonly IUserRepository _userRepository = userRepository;
+        private readonly IUserStatisticsRepository _userStatisticsRepository = userStatisticsRepository;
 
         public async Task<int> RegisterAsync(UserRegisterationRequest request)
         {
@@ -64,11 +66,14 @@ namespace ai_wo_generator.Services.UserService
                 throw new Exception("Invalid email or password.");
             }
 
+            var userStats = await _userStatisticsRepository.GetById(user.Id);
+
             UserProfileDto userProfileDto = new()
             {
                 Id = user.Id,
                 Email = user.Email,
-                Name = user.FullName ?? string.Empty
+                Name = user.FullName ?? string.Empty,
+                Statistics = userStats
             };
 
 

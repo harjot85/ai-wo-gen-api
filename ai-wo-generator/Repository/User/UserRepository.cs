@@ -1,14 +1,13 @@
 ﻿using ai_wo_generator.Data;
-using ai_wo_generator.Models;
 using Dapper;
 
-namespace ai_wo_generator.Repository
+namespace ai_wo_generator.Repository.User
 {
     public class UserRepository(DbConnectionFactory dbConnectionFactory) : IUserRepository
     {
         private readonly DbConnectionFactory _dbConnectionFactory = dbConnectionFactory;
 
-        public async Task<int> CreateAsync(User user)
+        public async Task<int> CreateAsync(Models.User user)
         {
             using var connection = _dbConnectionFactory.CreateConnection();
             const string sql = @"INSERT INTO [dbo].[Users] (Email, PasswordHash, FullName, CreatedAt)
@@ -18,26 +17,33 @@ namespace ai_wo_generator.Repository
             return await connection.ExecuteScalarAsync<int>(sql, user);
         }
 
-        public async Task<User?> GetByEmailAsync(string email)
+        public async Task<Models.User?> GetByEmailAsync(string email)
         {
-            using var connection = _dbConnectionFactory.CreateConnection();
-            const string sql = @"SELECT Id, Email, PasswordHash, FullName, CreatedAt
+            try
+            {   
+                using var connection = _dbConnectionFactory.CreateConnection();
+                const string sql = @"SELECT Id, Email, PasswordHash, FullName, CreatedAt
                                  FROM [dbo].[Users]
                                  WHERE Email = @Email";
 
-            // Todo: 
-            var result =  await connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = email });
+                // Todo: 
+                var result = await connection.QuerySingleOrDefaultAsync<Models.User>(sql, new { Email = email });
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        public async Task<User?> GetByIdAsync(int id)
+        public async Task<Models.User?> GetByIdAsync(int id)
         {
             using var connection = _dbConnectionFactory.CreateConnection();
             const string sql = @"SELECT Id, Email, PasswordHash, FullName, CreatedAt
                                  FROM [dbo].[Users]
                                  WHERE Id = @id";
-            return await connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
+            return await connection.QuerySingleOrDefaultAsync<Models.User>(sql, new { Id = id });
         }
     }
 }

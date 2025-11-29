@@ -47,7 +47,7 @@ namespace ai_wo_generator.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserLoginRequest loginRequest)
+        public async Task<IActionResult> Login(UserLoginRequest loginRequest)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace ai_wo_generator.Controllers
                     return Unauthorized("Login credentials missing");
                 }
 
-                var user = _userService.LoginAsync(loginRequest);
+                var user = await _userService.LoginAsync(loginRequest);
 
                 if (user == null)
                 {

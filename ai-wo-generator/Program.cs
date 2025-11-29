@@ -1,8 +1,10 @@
 using ai_wo_generator.Data;
-using ai_wo_generator.Repository;
+using ai_wo_generator.Repository.User;
+using ai_wo_generator.Repository.UserStats;
 using ai_wo_generator.Services.FitnessPlanService;
 using ai_wo_generator.Services.OpenAIService;
 using ai_wo_generator.Services.UserService;
+using ai_wo_generator.Services.UserStats;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFitnessPlanService, FitnessPlanService>();
 builder.Services.AddSingleton<DbConnectionFactory>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserStatisticsRepository, UserStatisticsRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserStatisticsService, UserStatisticsService>();
 builder.Services.AddHttpClient<IOpenAIService, OpenAIService>();
 
 builder.Services.AddCors(options =>
