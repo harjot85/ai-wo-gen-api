@@ -6,8 +6,12 @@ namespace ai_wo_generator.Services.UserService
     public interface IUserService
     {
         Task<int> RegisterAsync(UserRegisterationRequest request);
+
         Task<UserProfileDto?> GetUserAsync(int id);
 
-        Task<UserProfileDto?> LoginAsync(UserLoginRequest loginRequest);
+        // TODO: Returns JWT token with user id | bool is temporary for now
+        Task<int> LoginAsync(UserLoginRequest loginRequest);
+
+        Task<int> SaveAsync(UserProfile request);
     }
 }

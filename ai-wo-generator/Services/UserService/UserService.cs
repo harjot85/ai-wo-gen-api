@@ -35,12 +35,13 @@ namespace ai_wo_generator.Services.UserService
             {
                 throw new Exception("User not found");
             }
-
+            var userStats = await _userStatisticsRepository.GetById(user.Id);
             UserProfileDto userProfileDto = new()
             {
                 Id = user.Id,
                 Email = user.Email,
-                Name = user.FullName ?? string.Empty
+                Name = user.FullName ?? string.Empty,
+                Statistics = userStats
             };
 
             return userProfileDto;
@@ -52,32 +53,26 @@ namespace ai_wo_generator.Services.UserService
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
-        public async Task<UserProfileDto?> LoginAsync(UserLoginRequest loginRequest)
+        public async Task<int> LoginAsync(UserLoginRequest loginRequest)
         {
             var user = await _userRepository.GetByEmailAsync(loginRequest.Email);
 
             if (user == null)
             {
-                throw new Exception("User not found");
+                return -1;
             }
 
             if (!BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.PasswordHash))
             {
-                throw new Exception("Invalid email or password.");
+                return -1;
             }
 
-            var userStats = await _userStatisticsRepository.GetById(user.Id);
+            return user.Id;
+        }
 
-            UserProfileDto userProfileDto = new()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Name = user.FullName ?? string.Empty,
-                Statistics = userStats
-            };
-
-
-            return userProfileDto;
+        public Task<int> SaveAsync(UserProfile request)
+        {
+            throw new NotImplementedException();
         }
     }
 }
