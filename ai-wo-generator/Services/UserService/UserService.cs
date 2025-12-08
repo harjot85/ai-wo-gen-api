@@ -70,10 +70,5 @@ namespace ai_wo_generator.Services.UserService
 
             return user.Id;
         }
-
-        public Task<int> SaveAsync(UserProfileCreateDto request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

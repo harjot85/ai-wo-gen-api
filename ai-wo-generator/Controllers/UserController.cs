@@ -1,15 +1,17 @@
 ﻿using ai_wo_generator.DTOs.Authentication;
 using ai_wo_generator.DTOs.UserProfile;
 using ai_wo_generator.Services.UserService;
+using ai_wo_generator.Services.UserStats;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ai_wo_generator.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class UserController(IUserService userService) : ControllerBase
+    public class UserController(IUserService userService, IUserStatisticsService userStatisticsService) : ControllerBase
     {
         private readonly IUserService _userService = userService;
+        private readonly IUserStatisticsService _userStatisticsService = userStatisticsService;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterationRequest request)
@@ -48,8 +50,8 @@ namespace ai_wo_generator.Controllers
             }
         }
 
-        [HttpPost("save")]
-        public async Task<IActionResult> Save([FromBody] UserProfileCreateDto request)
+        [HttpPost("profile/insert")]
+        public async Task<IActionResult> Insert([FromBody] UserStatisticsCreateDto request)
         {
             try
             {
@@ -57,7 +59,7 @@ namespace ai_wo_generator.Controllers
                 {
                     return BadRequest("Invalid request data");
                 }
-                var userId = await _userService.SaveAsync(request);
+                var userId = await _userStatisticsService.InsertAsync(request);
 
                 return Ok();
             }

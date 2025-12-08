@@ -12,7 +12,5 @@ namespace ai_wo_generator.Services.UserService
 
         // TODO: Returns JWT token with user id | bool is temporary for now
         Task<int> LoginAsync(UserLoginRequest loginRequest);
-
-        Task<int> SaveAsync(UserProfileCreateDto request);
     }
 }

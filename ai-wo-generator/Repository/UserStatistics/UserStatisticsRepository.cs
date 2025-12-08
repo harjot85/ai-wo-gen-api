@@ -37,9 +37,44 @@ namespace ai_wo_generator.Repository.UserStats
             }
         }
 
-        public Task<UserStatistics?> Save(UserStatistics userStatistics)
+        public async Task<int?> Insert(UserStatistics userStatistics)
         {
-            throw new NotImplementedException();
+            try
+            { 
+                using var connection = _dbConnectionFactory.CreateConnection();
+                const string sql = @"INSERT INTO [dbo].[UserStatistics]
+                                           ([UserId]
+                                           ,[DateOfBirth]
+                                           ,[WeightInLbs]
+                                           ,[HeightInInches]
+                                           ,[BiologicalSex]
+                                           ,[ExperienceLevel]
+                                           ,[Profession]
+                                           ,[ChronicPhysicalLimitations]
+                                           ,[MedicalIssues]
+                                           ,[CreatedAt]
+                                           ,[UpdatedAt])
+                                     VALUES
+                                           (@UserId
+                                           ,@DateOfBirth
+                                           ,@WeightInLbs
+                                           ,@HeightInInches
+                                           ,@BiologicalSex
+                                           ,@ExperienceLevel
+                                           ,@Profession
+                                           ,@ChronicPhysicalLimitations
+                                           ,@MedicalIssues
+                                           ,GETDATE()
+                                           ,GETDATE());
+                                     SELECT CAST(SCOPE_IDENTITY() as int);";
+                var result = await connection.ExecuteScalarAsync<int>(sql, userStatistics);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
