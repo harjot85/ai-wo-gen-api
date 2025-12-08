@@ -1,4 +1,4 @@
-﻿using ai_wo_generator.Models;
+﻿using ai_wo_generator.DTOs.Authentication;
 using ai_wo_generator.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 

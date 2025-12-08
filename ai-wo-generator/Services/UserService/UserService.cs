@@ -1,5 +1,6 @@
-﻿using ai_wo_generator.Models;
-using ai_wo_generator.Models.DTO;
+﻿using ai_wo_generator.DTOs.Authentication;
+using ai_wo_generator.DTOs.UserProfile;
+using ai_wo_generator.Models;
 using ai_wo_generator.Repository.User;
 using ai_wo_generator.Repository.UserStats;
 
@@ -27,7 +28,7 @@ namespace ai_wo_generator.Services.UserService
             return await _userRepository.CreateAsync(user);
         }
         
-        public async Task<UserProfileDto?> GetUserAsync(int id)
+        public async Task<UserProfileResponseDto?> GetUserAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
 
@@ -36,7 +37,7 @@ namespace ai_wo_generator.Services.UserService
                 throw new Exception("User not found");
             }
             var userStats = await _userStatisticsRepository.GetById(user.Id);
-            UserProfileDto userProfileDto = new()
+            UserProfileResponseDto userProfileDto = new()
             {
                 Id = user.Id,
                 Email = user.Email,
@@ -70,7 +71,7 @@ namespace ai_wo_generator.Services.UserService
             return user.Id;
         }
 
-        public Task<int> SaveAsync(UserProfile request)
+        public Task<int> SaveAsync(UserProfileCreateDto request)
         {
             throw new NotImplementedException();
         }

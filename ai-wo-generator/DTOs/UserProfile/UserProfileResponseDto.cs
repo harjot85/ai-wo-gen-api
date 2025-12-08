@@ -1,6 +1,8 @@
-﻿namespace ai_wo_generator.Models.DTO
+﻿using ai_wo_generator.Models;
+
+namespace ai_wo_generator.DTOs.UserProfile
 {
-    public class UserProfileDto
+    public class UserProfileResponseDto
     {
         
         public int Id { get; set; }

@@ -1,4 +1,4 @@
-namespace ai_wo_generator.Models
+namespace ai_wo_generator.DTOs
 {
     public class FitnessPlanSave
     {

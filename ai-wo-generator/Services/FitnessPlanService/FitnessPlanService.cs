@@ -1,4 +1,4 @@
-﻿using ai_wo_generator.Models;
+﻿using ai_wo_generator.DTOs;
 using ai_wo_generator.Services.OpenAIService;
 
 namespace ai_wo_generator.Services.FitnessPlanService

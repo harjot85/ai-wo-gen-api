@@ -14,13 +14,17 @@ namespace ai_wo_generator.Repository.UserStats
             {
                 using var connection = _dbConnectionFactory.CreateConnection();
                 const string sql = @"SELECT TOP (1000) [UserId]
-                                      ,[HeightInInches]
-                                      ,[WeightInPounds]
-                                      ,[Gender]
-                                      ,[DateOfBirth]
-                                      ,[CreatedAt]
-                                      ,[UpdatedAt]
-                                  FROM [dbo].[UserStatistics]
+                                          ,[DateOfBirth]
+                                          ,[WeightInLbs]
+                                          ,[HeightInInches]
+                                          ,[BiologicalSex]
+                                          ,[ExperienceLevel]
+                                          ,[Profession]
+                                          ,[ChronicPhysicalLimitations]
+                                          ,[MedicalIssues]
+                                          ,[CreatedAt]
+                                          ,[UpdatedAt]
+                                      FROM [dbo].[UserStatistics]
                                     WHERE UserId = @UserId";
 
                 var result = await connection.QuerySingleOrDefaultAsync<UserStatistics>(sql, new { UserId = id });

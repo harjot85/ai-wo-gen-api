@@ -26,7 +26,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://localhost:5173", "https://ai-wog-vite.vercel.app")
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .SetPreflightMaxAge(TimeSpan.FromHours(24));
     });
 });
 

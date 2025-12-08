@@ -1,4 +1,5 @@
-﻿using ai_wo_generator.Models;
+﻿using ai_wo_generator.DTOs.Authentication;
+using ai_wo_generator.DTOs.UserProfile;
 using ai_wo_generator.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,7 @@ namespace ai_wo_generator.Controllers
             }
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{userId}/profile")]
         public async Task<IActionResult> GetUser(int userId)
         {
             try
@@ -48,7 +49,7 @@ namespace ai_wo_generator.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> Save([FromBody] UserProfile request)
+        public async Task<IActionResult> Save([FromBody] UserProfileCreateDto request)
         {
             try
             {
