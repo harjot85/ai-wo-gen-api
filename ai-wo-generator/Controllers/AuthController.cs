@@ -27,7 +27,7 @@ namespace ai_wo_generator.Controllers
                     return Unauthorized("Invalid email or password");
                 }
 
-                return Ok(userId);
+                return Ok(new { userId });
             }
             catch (Exception ex)
             {
