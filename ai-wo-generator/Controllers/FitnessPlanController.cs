@@ -4,28 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ai_wo_generator.Controllers
 {
-    [Route("api/")]
+    [Route("api/v1/[controller]/")]
     [ApiController]
     public class FitnessPlanController(IFitnessPlanService fitnessPlanService) : ControllerBase
     {
         public readonly IFitnessPlanService _fitnessPlanService = fitnessPlanService;
 
-        [HttpPost("plan/generate")]
-        public async Task<IActionResult> GetFitnessPlan([FromBody] FitnessPlanGenerate fitnessPlanGenerateRequest)
+        [HttpPost("generate")]
+        public async Task<IActionResult> GetFitnessPlan([FromBody] UserFitnessPlanParameters fitnessPlanGenerateRequest)
         {
             if (fitnessPlanGenerateRequest == null)
             {
-
-                // temporary
-                string userPrompt = "Create one day workout plan for a 30 years old male in less than 100 words.";
-
-                fitnessPlanGenerateRequest = new FitnessPlanGenerate()
-                {
-                    Goal = userPrompt,
-                    Preference = "Do not include the exercises which are hard on shoulders.",
-                };
+                return BadRequest("Required data missing");
             }
-
             var result = await _fitnessPlanService.GetFitnessPlan(fitnessPlanGenerateRequest);
             return Ok(result);
         }

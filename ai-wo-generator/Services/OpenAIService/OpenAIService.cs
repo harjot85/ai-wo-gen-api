@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using ai_wo_generator.DTOs;
 
 namespace ai_wo_generator.Services.OpenAIService
 {
@@ -13,10 +12,8 @@ namespace ai_wo_generator.Services.OpenAIService
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {config["OpenAI:ApiKey"]}");
         }
 
-        public async Task<string> GenerateTextAsync(FitnessPlanGenerate userPrompt)
+        public async Task<string> GenerateTextAsync(string prompt)
         {
-            var prompt = GetPrompt(userPrompt);
-
             var requestBody = new
             {
                 model = "gpt-4o-mini",
@@ -42,15 +39,6 @@ namespace ai_wo_generator.Services.OpenAIService
                 .GetString();
 
             return content ?? string.Empty;
-        }
-
-        string GetPrompt(FitnessPlanGenerate userPrompt)
-        {
-            string prompt = string.Empty;
-
-            // TODO: Create prompt from User prompt
-
-            return prompt;
         }
     }
 }
