@@ -1,16 +1,22 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
 using System.Data;
 
 namespace ai_wo_generator.Data
 {
-    
-    public class DbConnectionFactory(IConfiguration configuration)
+    public class SqlConnectionSettings
     {
-        private readonly string _cnnectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new Exception("Missing Default Connection");
+        public string DefaultConnection { get; set; } = string.Empty;
+    }
+
+    public class DbConnectionFactory(IOptions<SqlConnectionSettings> options)
+    {
+        private readonly SqlConnectionSettings _settings = options.Value;
 
         public IDbConnection CreateConnection()
         {
-            return new SqlConnection(_cnnectionString);
+            var connectionString = _settings.DefaultConnection ?? throw new Exception("Missing Default Connection");
+            return new SqlConnection(connectionString);
         }
     }
 }

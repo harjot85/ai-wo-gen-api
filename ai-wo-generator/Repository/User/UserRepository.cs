@@ -9,12 +9,19 @@ namespace ai_wo_generator.Repository.User
 
         public async Task<int> CreateAsync(Models.User user)
         {
-            using var connection = _dbConnectionFactory.CreateConnection();
-            const string sql = @"INSERT INTO [dbo].[Users] (Email, PasswordHash, FullName, CreatedAt)
+            try
+            {
+                using var connection = _dbConnectionFactory.CreateConnection();
+                const string sql = @"INSERT INTO [dbo].[Users] (Email, PasswordHash, FullName, CreatedAt)
                                  VALUES (@Email, @PasswordHash, @FullName, @CreatedAt);
                                  SELECT CAST(SCOPE_IDENTITY() as int)";
 
-            return await connection.ExecuteScalarAsync<int>(sql, user);
+                return await connection.ExecuteScalarAsync<int>(sql, user);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<Models.User?> GetByEmailAsync(string email)

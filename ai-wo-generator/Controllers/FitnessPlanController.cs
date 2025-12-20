@@ -1,5 +1,6 @@
 ﻿using ai_wo_generator.DTOs;
 using ai_wo_generator.Services.FitnessPlanService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ai_wo_generator.Controllers
@@ -11,6 +12,7 @@ namespace ai_wo_generator.Controllers
         public readonly IFitnessPlanService _fitnessPlanService = fitnessPlanService;
 
         [HttpPost("generate")]
+        [Authorize]
         public async Task<IActionResult> GetFitnessPlan([FromBody] UserFitnessPlanParameters fitnessPlanGenerateRequest)
         {
             if (fitnessPlanGenerateRequest == null)

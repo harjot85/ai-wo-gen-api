@@ -2,6 +2,7 @@
 using ai_wo_generator.DTOs.UserProfile;
 using ai_wo_generator.Services.UserService;
 using ai_wo_generator.Services.UserStats;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ai_wo_generator.Controllers
@@ -13,26 +14,8 @@ namespace ai_wo_generator.Controllers
         private readonly IUserService _userService = userService;
         private readonly IUserStatisticsService _userStatisticsService = userStatisticsService;
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterationRequest request)
-        {
-            try
-            {
-                if (request == null)
-                {
-                    return BadRequest("Invalid request data");
-                }
-                var userId = await _userService.RegisterAsync(request);
-
-                return CreatedAtAction(nameof(Register), new { id = userId }, null);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
         [HttpGet("{userId}/profile")]
+        [Authorize]
         public async Task<IActionResult> GetUser(int userId)
         {
             try
